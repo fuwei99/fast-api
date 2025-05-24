@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cursor To OpenAI - 管理员登录</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#007aff">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card header-card">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <i class="fas fa-link" style="font-size: 24px; margin-right: 12px;"></i>
+                <h1>Cursor To OpenAI</h1>
+            </div>
+            <p>管理员登录系统 - 安全访问后台管理界面</p>
+        </div>
+
+        <!-- 登录表单卡片 -->
+        <div class="card" id="loginCard">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <i class="fas fa-sign-in-alt" style="color: var(--ios-blue); font-size: 18px; margin-right: 10px;"></i>
+                <h2 style="margin: 0;">管理员登录</h2>
+            </div>
+            <div id="loginMessage" class="message"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">
+                        <i class="fas fa-user" style="margin-right: 6px; color: var(--ios-gray);"></i>用户名
+                    </label>
+                    <input type="text" id="loginUsername" placeholder="请输入管理员用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <i class="fas fa-lock" style="margin-right: 6px; color: var(--ios-gray);"></i>密码
+                    </label>
+                    <input type="password" id="loginPassword" placeholder="请输入密码" required>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 6px;"></i>登录
+                </button>
+            </form>
+            <div class="toggle-form" id="toggleForm">
+                <i class="fas fa-user-plus" style="margin-right: 6px; color: var(--ios-blue);"></i>还没有账号？点击注册
+            </div>
+        </div>
+
+        <!-- 注册表单卡片 -->
+        <div class="card" id="registerCard" style="display: none;">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <i class="fas fa-user-plus" style="color: var(--ios-green); font-size: 18px; margin-right: 10px;"></i>
+                <h2 style="margin: 0;">注册管理员账号</h2>
+            </div>
+            <div id="registerMessage" class="message"></div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsername">
+                        <i class="fas fa-user" style="margin-right: 6px; color: var(--ios-gray);"></i>用户名
+                    </label>
+                    <input type="text" id="registerUsername" placeholder="请设置管理员用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">
+                        <i class="fas fa-lock" style="margin-right: 6px; color: var(--ios-gray);"></i>密码
+                    </label>
+                    <input type="password" id="registerPassword" placeholder="请设置密码" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-check-circle" style="margin-right: 6px; color: var(--ios-gray);"></i>确认密码
+                    </label>
+                    <input type="password" id="confirmPassword" placeholder="请再次输入密码" required>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-user-plus" style="margin-right: 6px;"></i>注册
+                </button>
+            </form>
+            <div class="toggle-form" id="toggleLoginForm">
+                <i class="fas fa-sign-in-alt" style="margin-right: 6px; color: var(--ios-blue);"></i>已有账号？点击登录
+            </div>
+        </div>
+        
+        <div class="card">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                <i class="fas fa-info-circle" style="color: var(--ios-blue); font-size: 18px; margin-right: 10px;"></i>
+                <h2 style="margin: 0;">系统信息</h2>
+            </div>
+            <div class="info">
+                <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                Cursor To OpenAI 是一个管理自定义 API Key 与 Cursor Cookie 映射关系的高效工具。登录后可以进行API Key的管理和配置。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const loginCard = document.getElementById('loginCard');
+        const registerCard = document.getElementById('registerCard');
+        const toggleForm = document.getElementById('toggleForm');
+        const toggleLoginForm = document.getElementById('toggleLoginForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const registerMessage = document.getElementById('registerMessage');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        // 切换表单显示
+        toggleForm.addEventListener('click', () => {
+            loginCard.style.display = 'none';
+            registerCard.style.display = 'block';
+            loginMessage.textContent = '';
+        });
+
+        toggleLoginForm.addEventListener('click', () => {
+            registerCard.style.display = 'none';
+            loginCard.style.display = 'block';
+            registerMessage.textContent = '';
+        });
+
+        // 检查是否已有管理员账号
+        async function checkAdminExists() {
+            try {
+                const response = await fetch('/v1/admin/check');
+                const data = await response.json();
+                
+                if (data.exists) {
+                    // 如果已有管理员，显示登录表单
+                    loginCard.style.display = 'block';
+                    registerCard.style.display = 'none';
+                    toggleForm.style.display = 'none';
+                } else {
+                    // 如果没有管理员，显示注册表单
+                    loginCard.style.display = 'none';
+                    registerCard.style.display = 'block';
+                    toggleLoginForm.style.display = 'none';
+                    
+                    // 添加首次使用的信息提示
+                    registerMessage.innerHTML = `
+                        <div class="info">
+                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                            首次使用，请注册管理员账号
+                        </div>`;
+                }
+            } catch (error) {
+                console.error('检查管理员账号失败:', error);
+                loginMessage.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                        连接服务器失败，请检查网络连接
+                    </div>`;
+            }
+        }
+
+        // 登录处理
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // 添加登录中的状态提示
+            loginMessage.innerHTML = `
+                <div class="info">
+                    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                    登录中，请稍候...
+                </div>`;
+            
+            try {
+                const response = await fetch('/v1/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 登录成功，保存token并跳转
+                    localStorage.setItem('adminToken', data.token);
+                    
+                    loginMessage.innerHTML = `
+                        <div class="info" style="background-color: rgba(52, 199, 89, 0.1); border-left: 3px solid var(--ios-green);">
+                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                            登录成功，正在跳转...
+                        </div>`;
+                    
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1000);
+                } else {
+                    loginMessage.innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                            ${data.message}
+                        </div>`;
+                }
+            } catch (error) {
+                console.error('登录失败:', error);
+                loginMessage.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                        登录失败，请稍后重试
+                    </div>`;
+            }
+        });
+
+        // 注册处理
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                registerMessage.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                        两次输入的密码不一致
+                    </div>`;
+                return;
+            }
+            
+            // 添加注册中的状态提示
+            registerMessage.innerHTML = `
+                <div class="info">
+                    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                    注册中，请稍候...
+                </div>`;
+            
+            try {
+                const response = await fetch('/v1/admin/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 注册成功，保存token并跳转
+                    localStorage.setItem('adminToken', data.token);
+                    
+                    registerMessage.innerHTML = `
+                        <div class="info" style="background-color: rgba(52, 199, 89, 0.1); border-left: 3px solid var(--ios-green);">
+                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                            注册成功，正在跳转...
+                        </div>`;
+                    
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1000);
+                } else {
+                    registerMessage.innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                            ${data.message}
+                        </div>`;
+                }
+            } catch (error) {
+                console.error('注册失败:', error);
+                registerMessage.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+                        注册失败，请稍后重试
+                    </div>`;
+            }
+        });
+
+        // 页面加载时检查管理员账号
+        document.addEventListener('DOMContentLoaded', checkAdminExists);
+    </script>
+</body>
+</html> 
