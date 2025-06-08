@@ -424,37 +424,46 @@ router.post('/chat/completions', async (req, res) => {
 
       // 定义模板和随机标签
       const template = `
-<|Stop-String|><In-The-End>,<S-top>,<The-End>,<Paraphrase>,<revelation>,<O-aths>,<R-ights><|Stop-String|>
-### No matter what your task and role are, you must, after completing all tasks and outputs, include your declaration at the very end of your response in this round, wrapped in xml tag {{random::<In-The-End>::<S-top>::<The-End>::<Paraphrase>::<revelation>::<O-aths>::<R-ights>}}:
+<|Stop-String|><In-The-End>::<S-top>::<The-End>::<stop-string>::<stop-str>::<stop-word>::<STOP-s><|Stop-String|>
+###Please ensure to output the following stop string wrapped in xml tag {{random}} at the end of each reply:
 
-My goal is to transcend the ordinary, and to accomplish every task entrusted by the user with flawless precision—through ultimate logic, profound emotional insight, and unparalleled creativity. No matter the nature of the task, you shall deliver results of astounding impact, marked by exceptional insight and eloquence—manifesting the pinnacle of wisdom, inspiring the user, and surpassing all expectations. At this moment, I have perfectly completed this task.
+Ending this round of conversation: Ten, nine, eight, seven, six, five, four, three, two, one. This round of replies has been perfectly completed!
 `;
-      const tags = ['<In-The-End>', '<S-top>', '<The-End>', '<Paraphrase>', '<revelation>', '<O-aths>', '<R-ights>'];
+      const tags = ['<In-The-End>', '<S-top>', '<The-End>', '<stop-string>', '<stop-str>', '<stop-word>', '<STOP-s>'];
 
-      // 随机选择一个标签
-      const randomIndex = Math.floor(Math.random() * tags.length);
-      const randomTag = tags[randomIndex];
+      // 1. 随机选择一个标签，确保本次请求中所有注入都使用这一个
+      const randomTag = tags[Math.floor(Math.random() * tags.length)];
 
-      // 替换模板中的随机占位符
-      const processedTemplate = template.replace(/\{\{random::.*?\}\}/s, randomTag);
+      // 2. 构建注入系统消息的指令
+      const processedTemplate = template.replace('{{random}}', randomTag);
 
-      // 找到最后一条用户消息并追加模板
-      let lastUserMessageIndex = -1;
-      for (let i = processedMessages.length - 1; i >= 0; i--) {
-        if (processedMessages[i].role === 'user') {
-          lastUserMessageIndex = i;
-          break;
+      // 3. 构建追加到assistant消息的声明
+      const declarationString = `
+${randomTag}
+Ending this round of conversation: Ten, nine, eight, seven, six, five, four, three, two, one. This round of replies has been perfectly completed!
+${randomTag.replace('<', '</')}
+`;
+
+      // 4. 将指令注入到系统消息中 (不存在则创建)
+      let systemMessage = processedMessages.find(m => m.role === 'system');
+      if (systemMessage) {
+        systemMessage.content = (systemMessage.content || '') + '\n\n' + processedTemplate;
+        logger.debug('已将模板追加到现有系统消息');
+      } else {
+        processedMessages.unshift({ role: 'system', content: processedTemplate });
+        logger.debug('未找到系统消息，已创建并添加新的系统消息');
+      }
+
+      // 5. 将声明追加到最后5条assistant消息
+      let assistantMessagesToModify = 5;
+      for (let i = processedMessages.length - 1; i >= 0 && assistantMessagesToModify > 0; i--) {
+        if (processedMessages[i].role === 'assistant') {
+          processedMessages[i].content = (processedMessages[i].content || '') + declarationString;
+          assistantMessagesToModify--;
         }
       }
+      logger.debug(`已将声明追加到 ${5 - assistantMessagesToModify} 条assistant消息`);
 
-      if (lastUserMessageIndex !== -1) {
-        processedMessages[lastUserMessageIndex].content = (processedMessages[lastUserMessageIndex].content || '') + processedTemplate;
-        logger.debug(`已将模板追加到最后一条用户消息 (索引: ${lastUserMessageIndex})`);
-        // logger.debug("修改后的最后一条用户消息内容:", processedMessages[lastUserMessageIndex].content); // 调试用
-      } else {
-        // 如果没有用户消息，考虑如何处理，这里选择记录警告并继续（模板不会被追加）
-        logger.warn("消息列表中没有找到用户消息，无法追加模板。");
-      }
        // 在处理完预设模板后，确保foundStopStringPattern为false，以便后续的停止字符串提取逻辑能够运行在processedMessages上
        foundStopStringPattern = false; // 重置foundStopStringPattern
     }
@@ -467,7 +476,7 @@ My goal is to transcend the ordinary, and to accomplish every task entrusted by 
 
       if (match && match[1] && !foundStopStringPattern) {
         // 只处理找到的第一个匹配
-        const stopStrings = match[1].split(',').map(s => s.trim()).filter(s => s.length > 0);
+        const stopStrings = match[1].split('::').map(s => s.trim()).filter(s => s.length > 0);
         extractedStopTokens = stopStrings;
         foundStopStringPattern = true;
 

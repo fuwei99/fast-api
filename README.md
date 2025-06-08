@@ -1,3 +1,11 @@
+---
+title: Cursor-To-OpenAI-Nexus
+emoji: 🚀
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 3010
+---
 # Cursor-To-OpenAI-Nexus
 
 [English](README.en.md) | 中文
@@ -89,6 +97,17 @@ docker compose logs -f
 # 停止服务
 docker compose down
 ```
+
+### 部署到 Hugging Face Spaces
+
+本项目包含 `Dockerfile`，可以直接部署到 Hugging Face Spaces。
+
+1.  在Hugging Face上创建一个新的Space，并选择 **Docker** 作为SDK。
+2.  将此仓库克隆到您的Space中。
+3.  在Space的 **Settings -> Repository secrets** 中设置您的环境变量（如 `API_KEYS` 等）。这些secrets会作为环境变量注入到容器中，作用等同于 `.env` 文件。
+4.  Hugging Face会自动构建并运行应用。
+
+**注意**: 部署后，请将文档中所有的 `http://127.0.0.1:3010` 替换为您的Space URL，例如 `https://your-space-name.hf.space`。
 
 ## API使用示例
 
