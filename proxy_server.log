@@ -1,0 +1,96 @@
+2025/06/09 12:18:12.836692 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/09 12:18:12.841349 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/09 12:20:28.077805 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/09 12:20:28.082498 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/09 12:21:16.376141 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/09 12:21:16.382812 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/09 12:22:43.593498 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/09 12:22:43.597928 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/09 12:23:33.082331 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/09 12:23:33.087347 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/09 12:24:37.277389 chrome_tls_proxy.go:537: 处理流式请求: POST https://www.notion.so/api/v3/runInferenceTranscript
+2025/06/09 12:24:37.317968 chrome_tls_proxy.go:153: 成功解析域名: www.notion.so -> 198.18.0.63
+2025/06/09 12:24:37.317968 chrome_tls_proxy.go:187: 建立TCP连接到: www.notion.so:443 (IP: 198.18.0.63)
+2025/06/09 12:24:37.319157 chrome_tls_proxy.go:196: TCP连接成功建立到 198.18.0.63:443
+2025/06/09 12:24:38.271929 chrome_tls_proxy.go:214: TLS握手成功，使用Chrome指纹
+2025/06/09 12:24:38.271929 chrome_tls_proxy.go:218: 协商的协议: h2
+2025/06/09 12:24:38.273041 chrome_tls_proxy.go:222: 使用Chrome TLS指纹处理HTTP/2请求
+2025/06/09 12:25:14.238223 chrome_tls_proxy.go:606: 流式传输完成: POST https://www.notion.so/api/v3/runInferenceTranscript, 总计 31669 字节
+2025/06/10 02:42:16.676423 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/10 02:42:16.681953 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/10 02:43:05.148946 chrome_tls_proxy.go:537: 处理流式请求: POST https://www.notion.so/api/v3/runInferenceTranscript
+2025/06/10 02:43:05.208572 chrome_tls_proxy.go:153: 成功解析域名: www.notion.so -> 198.18.0.144
+2025/06/10 02:43:05.208572 chrome_tls_proxy.go:187: 建立TCP连接到: www.notion.so:443 (IP: 198.18.0.144)
+2025/06/10 02:43:05.211835 chrome_tls_proxy.go:196: TCP连接成功建立到 198.18.0.144:443
+2025/06/10 02:43:05.427302 chrome_tls_proxy.go:214: TLS握手成功，使用Chrome指纹
+2025/06/10 02:43:05.427302 chrome_tls_proxy.go:218: 协商的协议: h2
+2025/06/10 02:43:05.427302 chrome_tls_proxy.go:222: 使用Chrome TLS指纹处理HTTP/2请求
+2025/06/10 02:43:41.149891 chrome_tls_proxy.go:606: 流式传输完成: POST https://www.notion.so/api/v3/runInferenceTranscript, 总计 31608 字节
+2025/06/10 03:01:17.428507 chrome_tls_proxy.go:537: 处理流式请求: POST https://www.notion.so/api/v3/runInferenceTranscript
+2025/06/10 03:01:17.448863 chrome_tls_proxy.go:153: 成功解析域名: www.notion.so -> 198.18.0.144
+2025/06/10 03:01:17.448863 chrome_tls_proxy.go:187: 建立TCP连接到: www.notion.so:443 (IP: 198.18.0.144)
+2025/06/10 03:01:17.453925 chrome_tls_proxy.go:196: TCP连接成功建立到 198.18.0.144:443
+2025/06/10 03:01:17.644603 chrome_tls_proxy.go:214: TLS握手成功，使用Chrome指纹
+2025/06/10 03:01:17.644603 chrome_tls_proxy.go:218: 协商的协议: h2
+2025/06/10 03:01:17.644603 chrome_tls_proxy.go:222: 使用Chrome TLS指纹处理HTTP/2请求
+2025/06/10 03:06:57.990484 chrome_tls_proxy.go:604: 错误: 读取响应错误: read tcp4 198.18.0.1:54244->198.18.0.144:443: wsarecv: An established connection was aborted by the software in your host machine.
+2025/06/10 03:07:11.842946 chrome_tls_proxy.go:537: 处理流式请求: POST https://www.notion.so/api/v3/runInferenceTranscript
+2025/06/10 03:07:11.868226 chrome_tls_proxy.go:153: 成功解析域名: www.notion.so -> 198.18.0.144
+2025/06/10 03:07:11.868226 chrome_tls_proxy.go:187: 建立TCP连接到: www.notion.so:443 (IP: 198.18.0.144)
+2025/06/10 03:07:11.869739 chrome_tls_proxy.go:196: TCP连接成功建立到 198.18.0.144:443
+2025/06/10 03:07:12.053531 chrome_tls_proxy.go:214: TLS握手成功，使用Chrome指纹
+2025/06/10 03:07:12.053531 chrome_tls_proxy.go:218: 协商的协议: h2
+2025/06/10 03:07:12.053531 chrome_tls_proxy.go:222: 使用Chrome TLS指纹处理HTTP/2请求
+2025/06/10 03:08:38.704075 chrome_tls_proxy.go:606: 流式传输完成: POST https://www.notion.so/api/v3/runInferenceTranscript, 总计 51661 字节
+2025/06/11 16:06:01.368108 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/11 16:06:01.373106 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/11 17:54:09.353046 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/11 17:54:09.357768 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/11 18:05:05.408576 chrome_tls_proxy.go:706: Chrome TLS指纹代理服务器运行在 http://localhost:10655/proxy
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:707: 使用方法：向/proxy发送POST请求，请求体包含目标URL、方法、请求头和请求体
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:708: 支持流式响应，需要在请求体中添加 'stream': true
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:709: 已禁用速率限制：允许无限制请求
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:710: 已禁用并发限制：允许同一IP发起多个并发请求
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:711: 已强制使用IPv4连接，并使用8.8.8.8作为DNS服务器
+2025/06/11 18:05:05.413163 chrome_tls_proxy.go:712: 使用Chrome浏览器的TLS指纹进行连接
+2025/06/11 18:05:05.414212 chrome_tls_proxy.go:716: 服务器启动失败: listen tcp :10655: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.

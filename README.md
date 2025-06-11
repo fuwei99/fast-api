@@ -1,228 +1,216 @@
 ---
-title: Cursor-To-OpenAI-Nexus
+title: Notion2API Node.js
 emoji: 🚀
-colorFrom: blue
-colorTo: green
+colorFrom: green
+colorTo: blue
 sdk: docker
-app_port: 3010
+app_port: 7860
+pinned: false
 ---
-# Cursor-To-OpenAI-Nexus
+# Notion API 轻量级客户端
 
-[English](README.en.md) | 中文
+这个项目提供了一个轻量级的 Notion API 客户端，可以在资源受限的环境（如 Termux）中运行，无需完整的浏览器环境。
 
-将Cursor的API请求转发到OpenAI，支持多个API Key轮询。
+## 特点
 
-## 项目特点
+- 使用 `node-fetch` 代替 Playwright 浏览器自动化
+- 轻量级设计，适合在移动设备和资源受限环境中运行
+- 支持 Notion AI 的流式响应
+- 兼容 OpenAI API 格式的请求和响应
 
-- 🔑 **多Key轮询**: 配置多个API Key轮询，提高可用性
-- 🚀 **简易配置**: 一键配置脚本，快速搭建环境
-- 📊 **状态监控**: 查看API Key使用情况
-- 🔧 **易于维护**: 便捷的维护脚本，简化日常操作
+## 安装
 
-## 🚀 基础安装
-### 克隆项目
-```
-git clone https://github.com/liuw1535/cursor-to-openai-nexus.git
-```
-### 进入项目
-```
-cd cursor-to-openai-nexus
-```
-### 安装依赖
-```
+### 依赖项
+
+确保安装以下依赖：
+
+```bash
 npm install
 ```
 
-## ⚙️ 配置项目
-```
-npm run setup
-```
-- 只需填写自定义密钥和是否启用TLS伪造代理服务器
-- 其他选项可直接回车跳过或随意填写
-- 🛡️ 如频繁遇到封号问题，建议启用TLS服务器
-- 配置不满意可重新执行此命令修改
+### 环境变量
 
-## 🏃 启动服务
+创建 `.env` 文件，设置以下环境变量：
+
 ```
+NOTION_COOKIE=your_notion_cookie_here
+NOTION_SPACE_ID=optional_space_id
+NOTION_ACTIVE_USER_HEADER=optional_user_id
+PROXY_URL=optional_proxy_url
+PROXY_AUTH_TOKEN=your_auth_token
+PORT=7860
+```
+
+## 使用方法
+
+### 启动服务
+
+运行轻量级服务器：
+
+```bash
 npm start
 ```
 
-## 🔍 使用方法
-1. 访问管理界面: `http://127.0.0.1:3010`
-2. 使用页面底部蓝色按钮获取cookie
-3. 在酒馆页面配置:
-   - API地址: `http://127.0.0.1:3010/v1`
-   - 密钥: `sk-text` (如果配置时输入的是"text")
+服务器将在指定端口（默认 7860）启动。
 
-## 📧 账号注册建议
-- 推荐使用域名邮箱(子域名邮箱更佳)
-- 搜索"cloudfare 域名邮箱"获取配置教程
-- ⚠️ 每次注册账号不超过2个，避免被封
-
-## 🛠️ 常用命令
-```
-npm start           # 启动项目
-npm run setup       # 修改配置
-```
-
-## 环境配置
-
-在`.env`文件中配置以下关键参数：
-
-- `API_KEYS`: API Key与Cookie的映射关系（JSON格式）
-- `USE_TLS_PROXY`: (true)启用tls服务器，可以避免阻止请求(block)的问题
-- `PROXY_PLATFORM`: 启用tls服务器时对应的平台，默认auto自动检测
-
-系统启动时会自动合并`.env`中的API Keys和`data/api_keys.json`中的API Keys，确保数据一致性。
-
-## 部署方式
-
-### 使用Docker Compose
+如果需要使用原始的基于 Playwright 的版本（不推荐在 Termux 中使用）：
 
 ```bash
-# 创建配置文件
-cp .env.example .env
-mkdir -p data
-cp data/admin.example.json data/admin.json
-
-# 创建管理员账户
-node scripts/create-admin.js
-
-# 启动服务
-docker compose up -d --build
-
-# 查看日志
-docker compose logs -f
-
-# 停止服务
-docker compose down
+npm run original
 ```
 
-### 部署到 Hugging Face Spaces
+### API 端点
 
-本项目包含 `Dockerfile`，可以直接部署到 Hugging Face Spaces。
+- `GET /v1/models` - 获取可用模型列表
+- `POST /v1/chat/completions` - 聊天完成端点
+- `GET /health` - 健康检查
 
-1.  在Hugging Face上创建一个新的Space，并选择 **Docker** 作为SDK。
-2.  将此仓库克隆到您的Space中。
-3.  在Space的 **Settings -> Repository secrets** 中设置您的环境变量（如 `API_KEYS` 等）。这些secrets会作为环境变量注入到容器中，作用等同于 `.env` 文件。
-4.  Hugging Face会自动构建并运行应用。
+### 在 Termux 中运行
 
-**注意**: 部署后，请将文档中所有的 `http://127.0.0.1:3010` 替换为您的Space URL，例如 `https://your-space-name.hf.space`。
-
-## API使用示例
-
-### Python示例
-
-```python
-from openai import OpenAI
-
-# 使用自定义API Key
-client = OpenAI(api_key="your_custom_api_key",
-                base_url="http://localhost:3010/v1")
-
-# 或直接使用Cookie
-# client = OpenAI(api_key="user_...",
-#                base_url="http://localhost:3010/v1")
-
-response = client.chat.completions.create(
-    model="claude-3-7-sonnet",
-    messages=[
-        {"role": "user", "content": "Hello."},
-    ],
-    stream=False
-)
-
-print(response.choices)
+1. 安装 Termux 和 Node.js：
+```bash
+pkg update
+pkg install nodejs
 ```
 
-## 注意事项
+2. 克隆项目并安装依赖：
+```bash
+git clone https://github.com/yourusername/notion2api-nodejs.git
+cd notion2api-nodejs
+npm install
+```
 
-- 请妥善保管你的WorkosCursorSessionToken
-- 本项目仅用于学习和研究目的，请遵守Cursor的使用条款
+3. 设置环境变量并运行：
+```bash
+npm start
+```
 
-## 致谢
+## 作为模块集成
 
-- 本项目基于[cursor-api](https://github.com/zhx47/cursor-api)(by zhx47)
-- 整合了[cursor-api](https://github.com/lvguanjun/cursor-api)(by lvguanjun)的提交内容
-
-# 日志系统
-
-项目集成了统一的日志系统，可以通过以下方式配置：
-
-## 日志级别配置
-
-1. 在 `.env` 文件中设置环境变量
-   ```
-   LOG_LEVEL=INFO
-   LOG_FORMAT=colored
-   LOG_TO_FILE=true
-   LOG_MAX_SIZE=10
-   LOG_MAX_FILES=10
-   ```
-2. 在启动命令中指定环境变量，例如：`LOG_LEVEL=DEBUG npm start`
-
-支持的日志级别有：
-- ERROR：只显示错误信息
-- WARN：显示警告和错误信息
-- INFO：显示一般信息、警告和错误信息（默认）
-- DEBUG：显示调试信息、一般信息、警告和错误信息
-- TRACE：显示所有日志信息
-
-## 日志格式
-
-日志格式为：`[级别] 时间戳 日志内容`，不同级别使用不同颜色显示，方便区分：
-- ERROR：红色
-- WARN：黄色
-- INFO：绿色
-- DEBUG：蓝色
-- TRACE：青色
-- HTTP：青色（专用于HTTP请求日志）
-
-## HTTP请求日志
-
-项目使用 Morgan 中间件记录 HTTP 请求，并集成到统一日志系统中：
-
-1. 在 `.env` 文件中设置 HTTP 日志格式：
-   ```
-   # 选项: tiny, combined, common, dev, short
-   MORGAN_FORMAT=tiny
-   ```
-
-2. HTTP 日志会以 `[HTTP]` 前缀显示，使用青色高亮，便于识别
-
-3. Morgan 格式选项说明：
-   - `tiny`: 最简洁的格式，仅包含方法、URL、状态码、响应时间
-   - `combined`: 标准的 Apache 组合日志格式，包含 IP、时间、请求、状态码、响应大小、referrer、user-agent
-   - `common`: 标准的 Apache 通用日志格式，类似 combined 但不包含 referrer 和 user-agent
-   - `dev`: 开发友好的彩色格式，包含方法、URL、状态码(带颜色)、响应时间
-   - `short`: 更短的格式，包含方法、URL、状态码、响应时间、响应大小
-
-## 文件日志
-
-项目支持将日志同时输出到控制台和文件，可以通过以下配置启用：
-
-1. 在 `.env` 文件中设置：`LOG_TO_FILE=true`
-2. 可选配置:
-   - `LOG_MAX_SIZE`: 日志文件最大大小，单位MB，默认10MB
-   - `LOG_MAX_FILES`: 保留的历史日志文件数量，默认10个
-
-日志文件存储在项目根目录的 `logs` 文件夹下:
-- 当前日志文件: `app.log`
-- 历史日志文件: `app-2023-05-05T12-45-30-000Z.log`
-
-文件日志会自动轮转，当日志文件大小超过设定值时，会创建新的日志文件并保留最近的N个文件。
-
-## 代码中使用
-
-在代码中可以按需使用不同级别的日志：
+你也可以将轻量级客户端作为模块导入到你自己的项目中：
 
 ```javascript
-const logger = require('./utils/logger');
+import {
+  initialize,
+  streamNotionResponse,
+  buildNotionRequest,
+  FETCHED_IDS_SUCCESSFULLY
+} from './lightweight-client.js';
 
-logger.error('这是错误信息');
-logger.warn('这是警告信息');
-logger.info('这是一般信息');
-logger.debug('这是调试信息');
-logger.trace('这是跟踪信息');
-logger.http('这是HTTP请求日志');
+// 初始化客户端
+await initialize();
+
+// 检查是否成功获取 Notion IDs
+if (FETCHED_IDS_SUCCESSFULLY) {
+  // 构建请求
+  const requestData = {
+    notion_model: "openai-gpt-4.1",
+    messages: [
+      { role: "user", content: "你好，请介绍一下自己" }
+    ]
+  };
+  
+  const notionRequestBody = buildNotionRequest(requestData);
+  
+  // 获取响应流
+  const stream = await streamNotionResponse(notionRequestBody);
+  
+  // 处理响应
+  stream.on('data', chunk => {
+    console.log(chunk.toString());
+  });
+}
 ```
+
+## 故障排除
+
+- 如果无法获取 Notion IDs，请确保提供了有效的 NOTION_COOKIE
+- 对于网络问题，可以尝试设置 PROXY_URL
+- 查看日志输出以获取详细的错误信息
+
+## 依赖说明
+
+- `node-fetch`: 用于发送 HTTP 请求
+- `jsdom`: 提供 DOM API 的轻量级模拟
+- `dotenv`: 加载环境变量
+- `express`: Web 服务器框架
+- `https-proxy-agent`: 支持 HTTPS 代理
+
+## Cookie管理功能
+
+本项目新增了Cookie管理功能，可以更方便地管理多个Notion Cookie，避免在.env文件中手动编辑长字符串。
+
+### 使用方法
+
+#### 1. 通过文件管理Cookie
+
+在项目根目录创建一个`cookies.txt`文件，每行一个完整的Cookie字符串：
+
+```
+cookie1_string_here
+cookie2_string_here
+cookie3_string_here
+```
+
+然后在`.env`文件中设置：
+
+```
+COOKIE_FILE=cookies.txt
+```
+
+系统启动时会自动从该文件加载Cookie。
+
+#### 2. 使用Cookie管理工具
+
+项目提供了一个命令行工具来管理Cookie：
+
+```bash
+# 使用npm脚本运行
+npm run cookie
+
+# 或者全局安装后运行
+npm link
+notion-cookie
+```
+
+命令行工具支持以下功能：
+
+- `help`: 显示帮助信息
+- `list`: 列出所有已加载的Cookie
+- `add`: 添加新的Cookie
+- `validate`: 验证所有Cookie的有效性
+- `remove`: 删除指定的Cookie
+- `save`: 保存Cookie到文件
+- `load`: 从文件加载Cookie
+- `exit`: 退出程序
+
+### Cookie轮询机制
+
+系统会自动轮询使用所有有效的Cookie，当一个Cookie返回401错误（未授权）时，会自动将其标记为无效并切换到下一个Cookie。这样可以提高系统的可靠性和可用性。
+
+### 文件格式支持
+
+Cookie管理器支持两种文件格式：
+
+1. 文本格式（.txt）：每行一个Cookie
+2. JSON格式（.json）：包含Cookie数组的JSON文件
+
+```json
+{
+  "cookies": [
+    "cookie1_string_here",
+    "cookie2_string_here"
+  ],
+  "updatedAt": "2023-08-01T12:00:00.000Z",
+  "count": 2
+}
+```
+
+或者简单的数组：
+
+```json
+[
+  "cookie1_string_here",
+  "cookie2_string_here"
+]
+``` 
