@@ -18,8 +18,15 @@ RUN npm ci --only=production
 # 复制项目源代码
 COPY src/ ./src/
 
+# 复制并设置entrypoint脚本
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+
 # 暴露应用程序的端口
 EXPOSE 7860
+
+# 设置entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
 
 # 启动应用程序的命令
 CMD [ "node", "src/lightweight-client-express.js" ] 
